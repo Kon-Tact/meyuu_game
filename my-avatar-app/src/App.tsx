@@ -1,33 +1,65 @@
 import { useState } from "react";
 import Avatar from "./components/Avatar";
 import HaircutPanel from "./components/HaircutPanel";
+import TopPanel from "./components/TopPanel";
+import BottomPanel from "./components/BottomPanel";
+import BodyPanel from "./components/BodyPanel";
 import "./App.css";
 
-const characters = ["Meyuu0.png", "Meyuu1.png"];
-const haircutList = ["MeyuuCoupe0.png", "MeyuuCoupe1.png"];
-
 function App() {
-  const [selectedCharacter, setSelectedCharacter] = useState<string>(characters[0]);
+  // États pour chaque élément de personnalisation
+  const [selectedHaircut, setSelectedHaircut] = useState<number>(0);
+  const [selectedTop, setSelectedTop] = useState<number>(0);
+  const [selectedBottom, setSelectedBottom] = useState<number>(0);
+  const [selectedBody, setSelectedBody] = useState<number>(-1); // -1 pour pas de body
 
-  const handleSelectHaircut = (haircut: string) => {
-    if (haircut === "MeyuuCoupe1.png") {
-      setSelectedCharacter("Meyuu1.png");
+  // Génération dynamique du nom du personnage
+  const generateCharacterName = () => {
+    const haircutCode = selectedHaircut.toString();
+    const topCode = selectedTop.toString().padStart(1, "0");
+    const bottomCode = selectedBottom.toString().padStart(1, "0");
+    
+    if (selectedBody !== -1) {
+        const bodyCode = selectedBody.toString().padStart(1, "0") + selectedBody.toString().padStart(1, "0");
+        return `Meyuu${haircutCode}${bodyCode}`;
     } else {
-      setSelectedCharacter("Meyuu0.png");
+        return `Meyuu${haircutCode}${topCode}${bottomCode}`;
     }
+};
+
+  // Mise à jour du personnage lorsque le body est sélectionné
+  const handleSelectBody = (body: number) => {
+    setSelectedBody(body);
+  };
+
+  // Mise à jour du personnage lorsque le haut ou le bas est sélectionné
+  const handleSelectTop = (top: number) => {
+    setSelectedBody(-1);
+    setSelectedTop(top);
+  };
+
+  const handleSelectBottom = (bottom: number) => {
+    setSelectedBody(-1);
+    setSelectedBottom(bottom);
+  };
+
+  // Mise à jour du personnage lorsque la coupe est sélectionnée
+  const handleSelectHaircut = (haircut: number) => {
+    setSelectedHaircut(haircut);
   };
 
   return (
     <div className="app-container">
       <h1 className="title">Mini Meyuu Customizer 🎨</h1>
-
-      {/* Avatar centré */}
-      <div className="avatar-container">
-        <Avatar character={selectedCharacter} />
-      </div>
-
-      {/* Sélection des coupes */}
-      <HaircutPanel haircutList={haircutList} onSelect={handleSelectHaircut} />
+      <Avatar character={generateCharacterName()} />
+      <h2>Coupes</h2>
+      <HaircutPanel onSelect={handleSelectHaircut} />
+      <h2>Hauts</h2>
+      <TopPanel onSelect={handleSelectTop} />
+      <h2>Bas</h2>
+      <BottomPanel onSelect={handleSelectBottom} />
+      <h2>Body</h2>
+      <BodyPanel onSelect={handleSelectBody} />
     </div>
   );
 }

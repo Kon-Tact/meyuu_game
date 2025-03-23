@@ -6,16 +6,15 @@ type AvatarProps = {
 
 const Avatar: React.FC<AvatarProps> = ({ character }) => {
   const basePath = import.meta.env.BASE_URL;
-  const imagePath = `${basePath}images/characters/${character}`;
-
+  const imagePath = `${basePath}/images/characters/${character}.png`;
   return (
-    <div className="relative flex justify-center">
+  <div className="avatar">
       <img
         src={imagePath}
         alt="Character"
-        style={{ width: "60%", height: "auto" }} // 🔥 Taille divisée par 2
+        style={{ width: "40%", height: "auto" }}
       />
-    </div>
+  </div>
   );
 };
 
