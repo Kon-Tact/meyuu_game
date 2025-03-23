@@ -18,14 +18,14 @@ function App() {
     const haircutCode = selectedHaircut.toString();
     const topCode = selectedTop.toString().padStart(1, "0");
     const bottomCode = selectedBottom.toString().padStart(1, "0");
-    
+
     if (selectedBody !== -1) {
-        const bodyCode = selectedBody.toString().padStart(1, "0") + selectedBody.toString().padStart(1, "0");
-        return `Meyuu${haircutCode}${bodyCode}`;
+      const bodyCode = selectedBody.toString().padStart(1, "0") + selectedBody.toString().padStart(1, "0");
+      return `Meyuu${haircutCode}${bodyCode}`;
     } else {
-        return `Meyuu${haircutCode}${topCode}${bottomCode}`;
+      return `Meyuu${haircutCode}${topCode}${bottomCode}`;
     }
-};
+  };
 
   // Mise à jour du personnage lorsque le body est sélectionné
   const handleSelectBody = (body: number) => {
@@ -50,18 +50,40 @@ function App() {
 
   return (
     <div className="app-container">
+
       <h1 className="title">Mini Meyuu Customizer 🎨</h1>
-      <Avatar character={generateCharacterName()} />
-      <h2>Coupes</h2>
-      <HaircutPanel onSelect={handleSelectHaircut} />
-      <h2>Hauts</h2>
-      <TopPanel onSelect={handleSelectTop} />
-      <h2>Bas</h2>
-      <BottomPanel onSelect={handleSelectBottom} />
-      <h2>Body</h2>
-      <BodyPanel onSelect={handleSelectBody} />
+
+      <div className="avatar">
+        <Avatar character={generateCharacterName()} />
+      </div>
+
+      <div className="second-row">
+
+        {/* Panneau latéral gauche pour les hauts et les bas */}
+        <div className="side-panel">
+          <h2>Hauts</h2>
+          <TopPanel onSelect={handleSelectTop} />
+          <h2>Bas</h2>
+          <BottomPanel onSelect={handleSelectBottom} />
+        </div>
+
+        {/* Panneau central pour l'avatar et les coupes */}
+        <div className="center-panel">
+          <h2>Coupes</h2>
+          <HaircutPanel onSelect={handleSelectHaircut} />
+        </div>
+
+        {/* Panneau latéral droit pour les bodies */}
+        <div className="side-panel">
+          <h2>Body</h2>
+          <BodyPanel onSelect={handleSelectBody} />
+        </div>
+        
+      </div>
+
     </div>
   );
+
 }
 
 export default App;
